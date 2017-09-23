@@ -10,8 +10,11 @@ ExecStart=@CMAKE_INSTALL_FULL_SBINDIR@/icinga2 daemon -d -e ${ICINGA2_ERROR_LOG}
 PIDFile=@ICINGA2_RUNDIR@/icinga2/icinga2.pid
 ExecReload=@CMAKE_INSTALL_PREFIX@/lib/icinga2/safe-reload @ICINGA2_SYSCONFIGFILE@
 TimeoutStartSec=30m
-# Introduced in Systemd 226, defaults to 512. Icinga 2 requires more tasks (checks, notifications, etc.)
-DefaultTasksMax=infinity
+
+# Introduced in Systemd 226
+# Can be a low default, depending on OS defaults (e.g. 512 on OpenSuSE)
+# Icinga 2 requires more tasks (checks, notifications, etc.)
+TasksMax=infinity
 
 [Install]
 WantedBy=multi-user.target
