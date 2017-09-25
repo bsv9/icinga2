@@ -15,6 +15,8 @@ TimeoutStartSec=30m
 # Can be a low default, depending on OS defaults (e.g. 512 on OpenSuSE)
 # Icinga 2 requires more tasks (checks, notifications, etc.)
 TasksMax=infinity
+# Ensure we have enough NPROC, openSUSE sets a limit to ~3K
+LimitNPROC=62883
 
 [Install]
 WantedBy=multi-user.target
