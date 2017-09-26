@@ -51,6 +51,17 @@ Error() {
   exit 1;
 }
 
+# source https://gist.github.com/cdown/1163649
+urlencode() {
+  local LANG=C i c e=''
+  for ((i=0;i<${#1};i++)); do
+    c=${1:$i:1}
+    [[ "$c" =~ [a-zA-Z0-9\.\~\_\-] ]] || printf -v c '%%%02X' "'$c"
+    e+="$c"
+  done
+  echo "$e"
+}
+
 ## Main
 while getopts 4:6:b:c:d:e:f:hi:l:n:o:r:s:t:u:v: opt
 do
@@ -134,7 +145,8 @@ fi
 if [ -n "$ICINGAWEB2URL" ] ; then
   NOTIFICATION_MESSAGE="$NOTIFICATION_MESSAGE
 
-$ICINGAWEB2URL/monitoring/service/show?host=$HOSTNAME&service=$SERVICENAME"
+$ICINGAWEB2URL/monitoring/service/show?host=$HOSTNAME&service=$(urlencode "$SERVICENAME")"
+
 fi
 
 ## Check whether verbose mode was enabled and log to syslog.
